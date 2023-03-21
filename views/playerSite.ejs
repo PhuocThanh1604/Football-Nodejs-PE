@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include ('./patials/head') %>
+
+    <body style="background-image: url('https://t3.ftcdn.net/jpg/04/84/56/02/360_F_484560228_OFLEvMOwpDAJfvAHveEBdVnzu4w6gfCe.jpg');background-size: cover;">
+       
+        <a class="button is-primary" style="position: fixed; bottom: 4vh; right: 2vw;"
+            onClick="document.querySelector('#popup').classList.add('is-active')">
+            New Player
+        </a>
+        <% if(error_msg !='' ){ %>
+            <div class="notification is-danger is-light"
+                style="margin-top: 55px;font-size: 36px;font-weight: 900;margin-bottom: 20px;display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 18px;"
+                style="margin-top: 100px;">
+                <%= error_msg %>
+            </div>
+            <% } %>
+                <div id="popup" class="modal">
+                    <div class="modal-background"></div>
+                    <div class="modal-card">
+                        <header class="modal-card-head" style="background-color: rgba(0, 209, 178, 0.7);">
+                            <p class="modal-card-title" style="text-align: center; font-weight: 700">ADD NEW PLAYER
+                            </p>
+                            <button class="delete" aria-label="close"
+                                onclick="document.querySelector('#popup').classList.remove('is-active')"></button>
+                        </header>
+                        <section class="modal-card-body">
+                            <form method="post" action="/players" enctype="multipart/form-data">
+                                <div class="field is-horizontal">
+                                    <div class="field-label is-normal">
+                                        <label class="label">Name</label>
+                                    </div>
+                                    <div class="field-body">
+                                        <div class="field">
+                                            <div class="control">
+                                                <input class="input is-info" name="name" type="text"
+                                                    placeholder="e.g. Messi" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="field is-horizontal">
+                                    <div class="field-label is-normal">
+                                        <label class="label">Image</label>
+                                    </div>
+                                    <div class="field-body">
+                                        <div class="field">
+                                            <div class="control">
+                                                <div class="file has-name is-boxed is-primary">
+                                                    <label class="file-label">
+                                                        <input class="file-input" type="file" name="file" required>
+                                                        <span class="file-cta">
+                                                            <span class="file-icon">
+                                                                <i class="fas fa-upload"></i>
+                                                            </span>
+                                                            <span class="file-label">
+                                                                Choose a file…
+                                                            </span>
+                                                        </span>
+                                                        <span class="file-name">
+                                                            No file selected
+                                                        </span>
+                                                    </label>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="field is-horizontal">
+                                    <div class="field-label is-normal">
+                                        <label class="label">Position</label>
+                                    </div>
+                                    <div class="field-body">
+                                        <div class="field is-narrow">
+                                            <div class="control">
+                                                <div class="select is-fullwidth">
+                                                    <select name="position">
+                                                        <%for (let position of positionList){ %>
+                                                            <option value="<%= position.name %>">
+                                                                <%= position.name %>
+                                                            </option>
+                                                            <% } %>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="field is-horizontal">
+                                    <div class="field-label is-normal">
+                                        <label class="label">Goals</label>
+                                    </div>
+                                    <div class="field-body">
+                                        <div class="field">
+                                            <div class="control">
+                                                <input class="input is-info" name="goals" type="number"
+                                                    placeholder="Number of goals" required>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="field is-horizontal">
+                                    <div class="field-label is-normal">
+                                        <label class="label">Nation</label>
+                                    </div>
+                                    <div class="field-body">
+                                        <div class="field is-narrow">
+                                            <div class="control">
+                                                <div class="select is-fullwidth">
+                                                    <select name="nation">
+                                                        <%for (let nation of nationsList){ %>
+                                                            <option value="<%= nation._id %>">
+                                                                <%= nation.name %>
+                                                            </option>
+                                                            <% } %>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="field is-horizontal">
+                                    <div class="field-label is-normal">
+                                        <label class="label">Career</label>
+                                    </div>
+                                    <div class="field-body">
+                                        <div class="field ">
+                                            <div class="control">
+                                                <textarea class="textarea" placeholder="Let's career"
+                                                    name="career"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="field is-horizontal"
+                                    style="display: flex; justify-content: center; align-items: center;">
+                                    <div class="field-label is-normal">
+                                        <label class="label" style="padding-bottom: 10px;">isCaptain</label>
+                                    </div>
+                                    <div class="field-body">
+                                        <div class="field">
+                                            <div class="control">
+                                                <label class="checkbox">
+                                                    <input type="checkbox" name="isCaptain" value="true">
+                                                    Yes, I am a captain
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="field is-horizontal" style="margin-left: 120px; ">
+                                    <div class="field-body">
+                                        <div class="field">
+                                            <div class="control">
+                                                <button class="button is-primary" type="submit"
+                                                    style="font-weight: 700">
+                                                    Create
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </section>
+                    </div>
+                </div>
+                <form id="search-form" style="margin-top: 10px; margin-left: 200px; margin-right: 200px;">
+                    <p class="control has-icons-left">
+                        <input class="input" type="text" placeholder="Search player(s) by name..." id="search-keyword">
+                        <span class="icon is-small is-left">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </span>
+                      </p>
+                </form>
+                <div class="box" style="background-color: hsl(171, 100%, 41%); padding:20px; margin-top: 10px; margin-left: 200px; width: 20vw;">
+                <div style="font-size: 20px; font-weight: 700;"><i class="fa-solid fa-filter" style="margin-right: 5px;"></i>Filter</div>
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">Position</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field is-narrow">
+                                <div class="control">
+                                    <div class="select is-fullwidth">
+                                        <select name="filter-position" id="filter-position">
+                                            <option value="">
+                                                Filter By Postion
+                                            </option>
+                                            <%for (let position of positionList){ %>
+                                                <option value="<%= position.name %>">
+                                                    <%= position.name %>
+                                                </option>
+                                                <% } %>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">Nation</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field is-narrow">
+                                <div class="control">
+                                    <div class="select is-fullwidth">
+                                        <select name="filter-nation" id="filter-nation">
+                                            <option value="">
+                                                Filter By Nation Name
+                                            </option>
+                                            <%for (let nation of nationsList){ %>
+                                                <option value="<%= nation._id %>">
+                                                    <%= nation.name %>
+                                                </option>
+                                                <% } %>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- table content -->
+                <div id="search-results" style="display: flex; justify-content: center;">
+                    <div>
+                        <table id="mytable" class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth"
+                            style="width: 1000px;">
+                            <thead style="height: 40px; background-color: aqua; ">
+                                <tr>
+                                    <th style="text-align: center;">Image</th>
+                                    <th style="text-align: center;">Name</th>
+                                    <th style="text-align: center;">Carrer</th>
+                                    <th style="text-align: center;">Postion</th>
+                                    <th style="text-align: center;">Goals</th>
+                                    <th style="text-align: center;">Nation</th>
+                                    <th style="text-align: center;">isCaptain</th>
+                                    <th style="text-align: center;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody style="text-align: center;">
+                                <% players.forEach(function(player) { %>
+                                    <tr>
+                                        <td style="width: 96px; height: 144px;">
+                                            <figure>
+                                                <img src=<%=player.image %> >
+                                            </figure>
+                                        </td>
+                                        <td style="padding-top: 60px;">
+                                            <%= player.name %>
+                                        </td>
+                                        <td style="padding-top: 60px;">
+                                            <%= player.career %>
+                                        </td>
+                                        <td style="padding-top: 60px;">
+                                            <%= player.position %>
+                                        </td>
+                                        <td style="padding-top: 60px;">
+                                            <%= player.goals %>
+                                        </td>
+                                        <td style="padding-top: 60px;">
+                                            <%= player.nation.name %>
+                                        </td>
+                                        <td style="padding-top: 60px;">
+                                            <%=player.isCaptain===true ? 'Captain' : 'No' %>
+                        
+                                            <td>
+                                                <div class="buttons">
+                                                    <a href="/players/edit/<%=player.id %>"><button
+                                                            class="btn btn-primary" style="margin: 10px;">Edit</button></a>
+                                                    <a href="/players/delete/<%=player.id %>"><button
+                                                            onclick="return confirm('Are you sure ???')"
+                                                            class="btn btn-danger" style="margin: 10px;">Delete</button></a>
+                                                </div></a>
+                                           
+
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                </div>
+                <div id="pagination">
+                    <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+                        <ul class="pagination-list">
+                            <% for (var i=1; i <=lastPage; i++) { %>
+                                <li><a class="pagination-link <% if (i === currentPage) { %>is-current<% } %>"
+                                        href="/players?page=<%= i %>">
+                                        <%= i %>
+                                    </a></li>
+                                <% } %>
+                        </ul>
+                    </nav>
+                </div>
+
+
+    </body>
+    <script>
+        // Lấy đối tượng table
+        const table = document.querySelector('#mytable');
+        const pagin = document.querySelector('#pagination');
+        // Xử lý sự kiện khi người dùng nhập từ khóa tìm kiếm
+        const searchKeyword = document.querySelector('#search-keyword');
+        const filterPosition = document.querySelector('#filter-position');
+        const filterNation = document.querySelector('#filter-nation');
+        filterPosition.addEventListener('change', (event) => {          
+            const value = event.target.value; 
+            if (value) {
+            const nation = filterNation.value;
+            const key = searchKeyword.value;         
+             var url;
+                if (filterNation.value == '' && searchKeyword.value == '') {
+                    url = ''
+                }
+                else if (searchKeyword.value == '' && filterNation.value != '') {
+                    url = `&nation=${nation}`
+                }
+                else if (searchKeyword.value != '' && filterNation.value == '') {
+                    url = `&name=${key}`
+                }
+                else if (searchKeyword.value != '' && searchKeyword.value != '') {
+                    url = `&nation=${nation}&name=${key}`
+                }
+
+                fetch(`/players?page=1&position=${value}${url}`)
+                    .then(response => response.text())
+                    .then(html => {
+                        
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(html, 'text/html');
+                        // Lấy phần tử table trong cây DOM
+                        const tableElement = doc.querySelector('table');
+                        const paginElement = doc.querySelector('#pagination');
+                        // Cập nhật dữ liệu trong table với kết quả tìm kiếm mới
+                        table.innerHTML = tableElement.innerHTML;
+                        pagin.innerHTML = paginElement.innerHTML;
+                        // Thay đổi tất cả các href trong phân trang thành "/users"
+                        const aTags = pagin.querySelectorAll('a');
+                        for (let i = 0; i < aTags.length; i++) {
+                            const pageNumber = i + 1;
+                            aTags[i].setAttribute('href', `/players?page=${pageNumber}&position=${value}${url}`);
+                            aTags[i].addEventListener('click', (event) => {
+                                event.preventDefault(); // Chặn sự kiện mặc định của trình duyệt
+                                // Thực hiện AJAX tại đây
+                                fetch(`/players?page=${i + 1}&position=${value}${url}`)
+                                    .then(response => response.text())
+                                    .then(html => {
+                                        const parser = new DOMParser();
+                                        const doc = parser.parseFromString(html, 'text/html');
+                                        // Lấy phần tử table trong cây DOM
+                                        const tableElement = doc.querySelector('table');
+                                        //const paginElement = doc.querySelector('#pagination');
+                                        // Cập nhật dữ liệu trong table với kết quả tìm kiếm mới                                     
+                                        table.innerHTML = tableElement.innerHTML;
+                                        const aTags1 = document.querySelector('a.is-current');
+
+                                        aTags1.classList.remove('is-current');
+
+                                        aTags[i].classList.add('is-current');
+                                        //pagin.innerHTML = paginElement.innerHTML;
+
+                                    });
+                            })
+
+                        }
+                    })
+                    .catch(error => console.error(error));
+            } else {
+                if(searchKeyword.value){
+                    fetch(`/players?page=1&name=${searchKeyword.value}`)
+                    .then(response => response.text())
+                    .then(html => {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(html, 'text/html');
+                        // Lấy phần tử table trong cây DOM
+                        const tableElement = doc.querySelector('table');
+                        const paginElement = doc.querySelector('#pagination');
+                        // Cập nhật dữ liệu trong table với kết quả tìm kiếm mới
+                        table.innerHTML = tableElement.innerHTML;
+                        pagin.innerHTML = paginElement.innerHTML;
+                    })
+                    .catch(error => console.error(error));
+                }
+                // Trả lại dữ liệu ban đầu khi ô tìm kiếm rỗng
+                else {fetch(`/players`)
+                    .then(response => response.text())
+                    .then(html => {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(html, 'text/html');
+                        // Lấy phần tử table trong cây DOM
+                        const tableElement = doc.querySelector('table');
+                        const paginElement = doc.querySelector('#pagination');
+                        // Cập nhật dữ liệu trong table với kết quả tìm kiếm mới
+                        table.innerHTML = tableElement.innerHTML;
+                        pagin.innerHTML = paginElement.innerHTML;
+                    })
+                    .catch(error => console.error(error));
+            }}
+        })
+        filterNation.addEventListener('change', (event) => {          
+            const value = event.target.value; 
+            if (value) {
+            const position = filterPosition.value;
+            const key = searchKeyword.value;         
+             var url;
+                if (filterPosition.value == '' && searchKeyword.value == '') {
+                    url = ''
+                }
+                else if (searchKeyword.value == '' && filterPosition.value != '') {
+                    url = `&position=${position}`
+                }
+                else if (searchKeyword.value != '' && filterPosition.value == '') {
+                    url = `&name=${key}`
+                }
+                else if (searchKeyword.value != '' && searchKeyword.value != '') {
+                    url = `&position=${position}&name=${key}`
+                }
+
+                fetch(`/players?page=1&nation=${value}${url}`)
+                    .then(response => response.text())
+                    .then(html => {
+                        
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(html, 'text/html');
+                        // Lấy phần tử table trong cây DOM
+                        const tableElement = doc.querySelector('table');
+                        const paginElement = doc.querySelector('#pagination');
+                        // Cập nhật dữ liệu trong table với kết quả tìm kiếm mới
+                        table.innerHTML = tableElement.innerHTML;
+                        pagin.innerHTML = paginElement.innerHTML;
+                        // Thay đổi tất cả các href trong phân trang thành "/users"
+                        const aTags = pagin.querySelectorAll('a');
+                        for (let i = 0; i < aTags.length; i++) {
+                            const pageNumber = i + 1;
+                            aTags[i].setAttribute('href', `/players?page=${pageNumber}&nation=${value}${url}`);
+                            aTags[i].addEventListener('click', (event) => {
+                                event.preventDefault(); // Chặn sự kiện mặc định của trình duyệt
+                                // Thực hiện AJAX tại đây
+                                fetch(`/players?page=${i + 1}&nation=${value}${url}`)
+                                    .then(response => response.text())
+                                    .then(html => {
+                                        const parser = new DOMParser();
+                                        const doc = parser.parseFromString(html, 'text/html');
+                                        // Lấy phần tử table trong cây DOM
+                                        const tableElement = doc.querySelector('table');
+                                        //const paginElement = doc.querySelector('#pagination');
+                                        // Cập nhật dữ liệu trong table với kết quả tìm kiếm mới                                     
+                                        table.innerHTML = tableElement.innerHTML;
+                                        const aTags1 = document.querySelector('a.is-current');
+
+                                        aTags1.classList.remove('is-current');
+
+                                        aTags[i].classList.add('is-current');
+                                        //pagin.innerHTML = paginElement.innerHTML;
+
+                                    });
+                            })
+
+                        }
+                    })
+                    .catch(error => console.error(error));
+            } else {
+                if(searchKeyword.value){
+                    fetch(`/players?page=1&name=${searchKeyword.value}`)
+                    .then(response => response.text())
+                    .then(html => {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(html, 'text/html');
+                        // Lấy phần tử table trong cây DOM
+                        const tableElement = doc.querySelector('table');
+                        const paginElement = doc.querySelector('#pagination');
+                        // Cập nhật dữ liệu trong table với kết quả tìm kiếm mới
+                        table.innerHTML = tableElement.innerHTML;
+                        pagin.innerHTML = paginElement.innerHTML;
+                    })
+                    .catch(error => console.error(error));
+                }
+                // Trả lại dữ liệu ban đầu khi ô tìm kiếm rỗng
+                else {fetch(`/players`)
+                    .then(response => response.text())
+                    .then(html => {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(html, 'text/html');
+                        // Lấy phần tử table trong cây DOM
+                        const tableElement = doc.querySelector('table');
+                        const paginElement = doc.querySelector('#pagination');
+                        // Cập nhật dữ liệu trong table với kết quả tìm kiếm mới
+                        table.innerHTML = tableElement.innerHTML;
+                        pagin.innerHTML = paginElement.innerHTML;
+                    })
+                    .catch(error => console.error(error));
+            }}
+        })
+        searchKeyword.addEventListener('input', (event) => {
+            const value = event.target.value;
+            const nation = filterNation.value;
+            const position = filterPosition.value;
+            console.log("data filter: ", nation, position);
+            if (value) {
+                var url;
+                if (filterNation.value == '' && filterPosition.value == '') {
+                    url = ''
+                    console.log("1");
+                }
+                else if (filterPosition.value == '' && filterNation.value != '') {
+                    url = `&nation=${nation}`
+                    console.log("2");
+                }
+                else if (filterPosition.value != '' && filterNation.value == '') {
+                    url = `&position=${position}`
+                    console.log("3");
+                }
+                else if (filterPosition.value != '' && filterNation.value != '') {
+                    url = `&nation=${nation}&position=${position}`
+                    console.log("4");
+                }
+                console.log("url: ", url);
+                console.log("url2: ", `/players?page=1&name=${value}${url}`);
+                fetch(`/players?page=1&name=${value}${url}`)
+                    .then(response => response.text())
+                    .then(html => {
+                        
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(html, 'text/html');
+                        // Lấy phần tử table trong cây DOM
+                        const tableElement = doc.querySelector('table');
+                        const paginElement = doc.querySelector('#pagination');
+                        // Cập nhật dữ liệu trong table với kết quả tìm kiếm mới
+                        table.innerHTML = tableElement.innerHTML;
+                        pagin.innerHTML = paginElement.innerHTML;
+                        // Thay đổi tất cả các href trong phân trang thành "/users"
+                        const aTags = pagin.querySelectorAll('a');
+                        for (let i = 0; i < aTags.length; i++) {
+                            const pageNumber = i + 1;
+                            aTags[i].setAttribute('href', `/players?page=${pageNumber}&name=${value}${url}`);
+                            aTags[i].addEventListener('click', (event) => {
+                                event.preventDefault(); // Chặn sự kiện mặc định của trình duyệt
+                                // Thực hiện AJAX tại đây
+                                fetch(`/players?page=${i + 1}&name=${value}${url}`)
+                                    .then(response => response.text())
+                                    .then(html => {
+                                        const parser = new DOMParser();
+                                        const doc = parser.parseFromString(html, 'text/html');
+                                        // Lấy phần tử table trong cây DOM
+                                        const tableElement = doc.querySelector('table');
+                                        //const paginElement = doc.querySelector('#pagination');
+                                        // Cập nhật dữ liệu trong table với kết quả tìm kiếm mới                                     
+                                        table.innerHTML = tableElement.innerHTML;
+                                        const aTags1 = document.querySelector('a.is-current');
+
+                                        aTags1.classList.remove('is-current');
+
+                                        aTags[i].classList.add('is-current');
+                                        //pagin.innerHTML = paginElement.innerHTML;
+
+                                    });
+                            })
+
+                        }
+                    })
+                    .catch(error => console.error(error));
+            } else {
+                // Trả lại dữ liệu ban đầu khi ô tìm kiếm rỗng
+                fetch(`/players`)
+                    .then(response => response.text())
+                    .then(html => {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(html, 'text/html');
+                        // Lấy phần tử table trong cây DOM
+                        const tableElement = doc.querySelector('table');
+                        const paginElement = doc.querySelector('#pagination');
+                        // Cập nhật dữ liệu trong table với kết quả tìm kiếm mới
+                        table.innerHTML = tableElement.innerHTML;
+                        pagin.innerHTML = paginElement.innerHTML;
+                    })
+                    .catch(error => console.error(error));
+            }
+        });
+
+        // $(document).ready(function () {
+        //     $('#mytable').DataTable();
+        // });
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get all "dropdown" elements
+            var dropdowns = Array.prototype.slice.call(document.querySelectorAll('.dropdown'), 0);
+
+            // Loop through all dropdowns and bind click event
+            dropdowns.forEach(function (dropdown) {
+                dropdown.addEventListener('click', function (event) {
+                    event.stopPropagation();
+                    dropdown.classList.toggle('is-active');
+                });
+            });
+
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', function (event) {
+                closeDropdowns();
+            });
+
+            function closeDropdowns() {
+                dropdowns.forEach(function (dropdown) {
+                    dropdown.classList.remove('is-active');
+                });
+            }
+        });
+        //   file
+        document.addEventListener('DOMContentLoaded', () => {
+            const fileInput = document.querySelector('.file-input');
+            const fileName = document.querySelector('.file-name');
+
+            fileInput.addEventListener('change', () => {
+                const file = fileInput.files[0];
+                if (file) {
+                    fileName.textContent = file.name;
+                } else {
+                    fileName.textContent = 'No file selected';
+                }
+            });
+        });
+    </script>
+
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include ('./patials/head') %>
+
+    <body>
+        <h1 style="text-align: center; margin-top: 100px; font-size: 40px; font-weight: 500; margin-bottom: 20px;">
+            MY PROFILE</h1>
+        <div >
+            <% if(error_msg !='' ){ %>
+                <div class="notification is-danger is-light"
+                    style="margin-top: 55px;font-size: 36px;font-weight: 900;margin-bottom: 20px;display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 18px;">
+                    <%= error_msg %>
+                </div>
+                <% } %>
+                    <% if(success_msg !='' ){ %>
+                        <div class="notification is-success is-light"
+                            style="font-size: 36px;font-weight: 900;margin-bottom: 20px;display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 18px;"
+                            style="margin-top: 100px;">
+                            <%= success_msg %>
+                        </div>
+                        <% } %>
+        </div>
+        <form method="post" class="container is-max-desktop" style="margin-top: 10px;">
+            <div class="field is-horizontal" style="margin-bottom: 30px;">
+                <div class="field-label is-normal">
+                    <label class="label">User Name</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control">
+                            <input class="input is-info" name="username" type="text" disabled
+                                value="<%= user.username %>">
+                        </div>
+                        <!-- <p class="help is-danger">
+                        This field is required
+                    </p> -->
+                    </div>
+                </div>
+            </div>
+            <div class="field is-horizontal" style="margin-bottom: 30px;">
+                <div class="field-label is-normal">
+                    <label class="label">Name</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control">
+                            <input class="input is-info" name="name" type="text" required value="<%= user.name %>">
+                        </div>
+                        <!-- <p class="help is-danger">
+                        This field is required
+                    </p> -->
+                    </div>
+                </div>
+            </div>
+            <div class="field is-horizontal" style="margin-bottom: 30px;">
+                <div class="field-label is-normal">
+                    <label class="label">Email</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control">
+                            <input class="input is-info" name="email" type="email" required value="<%= user.email %>">
+                        </div>
+                        <!-- <p class="help is-danger">
+                        This field is required
+                    </p> -->
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="field is-horizontal" style="margin-bottom: 30px;">
+                <div class="field-label is-normal">
+                    <label class="label">Year of birth</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control">
+                            <input class="input is-info" name="yob" required type="number" min="1945" max="2023"
+                                value="<%= user.YOB %>">
+                        </div>
+                        <!-- <p class="help is-danger">
+                        This field is required
+                    </p> -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control">
+                            <button class="button is-primary" type="submit" style="margin-left: 180px;">
+                                UPDATE
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </body>
+    <script>
+    // Show error message
+
+    </script>
+
+</html>

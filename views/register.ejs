@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+	<script src="https://kit.fontawesome.com/589ebc73ef.js" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/js/bulma.min.js"
+		integrity="sha512-XSL8md+KzAg/ysd1EBcvzQx+8keNkzJ1pogDe+bJN9P5/RW+5c5v5d6Am++F6fmnt8wpD22fCaC/MP1M48hRtg=="
+		crossorigin="anonymous"></script>
+</head>
+<body>
+
+	   <div style="display: flex; justify-content: center; align-items: center; width: 100vw; height: 100vh;background-size: cover; background-image:
+	    url(https://free4kwallpapers.com/uploads/originals/2015/11/22/football--stadium-wallpaper.jpg);">
+    	<form method="post" class="box" style="width: 30vw;">
+	    <div class="field">
+			<label class="label">Username</label>
+			<div class="control has-icons-left">               
+			  <input class="input" name="username" type="text" placeholder="Type your username....">
+			  <span class="icon is-small is-left">
+				<i class="fas fa-envelope"></i>
+			  </span>
+			</div>
+	      </div>     
+	      <div class="field">
+	        <!-- <label class="label">Password</label>
+	        <div class="control">
+	          <input class="input is-success" name="password" type="password" >
+	        </div>  -->
+
+			<label class="label">Password</label>
+			<div class="control has-icons-left">
+			  <input class="input" name="password" type="password" placeholder="Password">
+			  <span class="icon is-small is-left">
+				<i class="fas fa-lock"></i>
+			  </span>
+			</div>
+
+	      </div>  
+	    <div class="field is-grouped">
+	        <div class="control">
+	          <button class="button is-primary">Register</button>
+	        </div>
+	    </div>
+
+			<% if (typeof errors != 'undefined') { %>
+				<% errors.forEach(function (error){ %> 
+				  <div class="notification is-danger is-light" style="padding: 2px; text-align: center;">
+					<%= error.msg %>
+				  </div>
+			   <% }); %> <% } %>
+			   <p class="text-center text-muted mt-5 mb-0">Have already an account? <a href="http://localhost:3000/users/login"
+				class="fw-bold text-body"><u>Login here</u></a></p>
+	</form>
+</div>
+</body>
+</html>

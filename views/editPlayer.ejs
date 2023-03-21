@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include ('./patials/head') %>
+<body style="background-color: rgb(184, 170, 243);">
+    <div class="container" >
+        <h1 style="text-align: center; margin-top: 100px; font-size: 40px; font-weight: 500; margin-bottom: 20px;">UPDATE PLAYER</h1>
+        <% if(error_msg != ''){ %>
+            <%= error_msg %>
+        <% } %>
+        <form method="post" class="container is-max-desktop" style="margin-top: 10px;" enctype="multipart/form-data">
+            <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                    <label class="label">Name</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control">
+                            <input class="input is-info" required name="name" type="text" value="<%= player.name %>">
+                        </div>  
+                        <p class="help is-danger">
+                            <%= %>
+                        </p>             
+                    </div>
+                </div>
+            </div>
+            
+            <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                    <label class="label">Image</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control">
+                            <!-- <div><figure style="width: 96px; height: 144px;">
+                                <img  src="<%=player.image%>">
+                              </figure></div> -->
+                            <div class="file has-name is-boxed">
+                                <label class="file-label">
+                                    <input class="file-input" type="file" name="file">
+                                    <span class="file-cta" >
+                                        <span class="file-icon">
+                                            <i class="fas fa-upload"></i>
+                                        </span>
+                                        <span class="file-label">
+                                            Choose a file…
+                                        </span>
+                                    </span>
+                                    <span class="file-name">
+                                        No file selected
+                                    </span>
+                                </label>
+                            </div>
+                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+       
+        <div style="display: flex; align-items: center; justify-content: space-around; width: 60vw; margin-left: 6vw;">
+            <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                    <label class="label">Position</label>
+                </div>
+                <div class="field-body">
+                    <div class="field is-narrow">
+                        <div class="control">
+                            <div class="select is-fullwidth">
+                                <select name="position">
+                                    <%for (let position of positionList){ %>
+                                        <option value="<%= position.name %>"
+                                            <%=JSON.stringify(position.name)===JSON.stringify(player.position) ? 'selected' : '' %>><%=
+                                                position.name %>
+                                        </option>
+                                        <% } %>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                    <label class="label">Goals</label>
+                </div>
+                <div class="field-body">
+                    <div class="field is-narrow">
+                        <div class="control">
+                            <input class="input is-info" name="goals" required min="0" type="number" value="<%= player.goals %>">
+                        </div>                    
+                    </div>
+                </div>
+            </div>
+            <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                    <label class="label">Nation</label>
+                </div>
+                <div class="field-body">
+                    <div class="field is-narrow">
+                        <div class="control">
+                            <div class="select is-fullwidth">
+                                <select name="nation">
+                                    <%for (let nation of nationsList){ %>                                 
+                                        <option value="<%= nation._id %>" <%=JSON.stringify(nation.name)===JSON.stringify(player.nation.name) ? 'selected' : '' %>>
+                                            <%= nation.name %>
+                                        </option>
+                                        <% } %>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+        </div>
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label">Career</label>
+            </div>
+            <div class="field-body">
+                <div class="field">
+                    <div class="control">
+                        <!-- <div class="select is-fullwidth">
+                            <select name="career">
+                                <%for (let club of clubList){ %>
+                                    <option value="<%= club.name %>"
+                                        <%=JSON.stringify(club.name)===JSON.stringify(player.career) ? 'selected' : '' %>><%=
+                                            club.name %>
+                                    </option>
+                                    <% } %>
+                            </select>
+                        </div> -->
+                        <textarea class="textarea" placeholder="Let's career"
+                        name="career"><%= player.career %></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="field is-horizontal" style="display: flex; justify-content: center; align-items: center;">
+                <div class="field-label is-normal">
+                  <label class="label" style="padding-bottom: 10px;">isCaptain</label>
+                </div>
+                <div class="field-body">
+                  <div class="field">
+                    <div class="control">
+                      <label class="checkbox">
+                        <input type="checkbox" name="isCaptain" value="true" <%= player.isCaptain ? 'checked' : '' %>>
+                        Yes, I am a captain
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <div class="field is-horizontal">
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control">
+                            <button class="button is-primary" style="margin-left: 180px;" type="submit" >
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+   
+</body>
+</html>

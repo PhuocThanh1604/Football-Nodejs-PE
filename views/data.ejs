@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+        <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+        
+    </head>
+
+    <body style="background-color: rgb(247, 210, 162); height: 100vh;">
+
+
+
+                    <!-- table content -->
+                    <div class="container is-fluid"
+                        style="display: flex; justify-content: center; padding-top: 100px; background-color: rgb(247, 210, 162);">
+                        <div>
+                            <table id="myTable" class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth"
+                            style="width: 1000px;">
+                            <thead style="height: 40px; background-color: aqua; ">
+                                <tr>
+                                    <th style="text-align: center;">Image</th>
+                                    <th style="text-align: center;">Name</th>
+                                    <th style="text-align: center;">Carrer</th>
+                                    <th style="text-align: center;">Postion</th>
+                                    <th style="text-align: center;">Goals</th>
+                                    <th style="text-align: center;">Nation</th>
+                                    <th style="text-align: center;">isCaptain</th>
+                                    <th style="text-align: center;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody style="text-align: center;">
+                                <% players.forEach(function(player) { %>
+                                    <tr>
+                                        <td
+                                            style="display: flex; align-items: center; justify-content: center; padding-top: 20px;">
+                                            <figure class="image is-64x64">
+                                                <img src=<%=player.image %> >
+                                            </figure>
+                                        </td>
+                                        <td style="padding-top: 24px;">
+                                            <%= player.name %>
+                                        </td>
+                                        <td style="padding-top: 24px;">
+                                            <%= player.career %>
+                                        </td>
+                                        <td style="padding-top: 24px;">
+                                            <%= player.position %>
+                                        </td>
+                                        <td style="padding-top: 24px;">
+                                            <%= player.goals %>
+                                        </td>
+                                        <td style="padding-top: 24px;">
+                                            <%= player.nation.name %>
+                                        </td>
+                                        <td style="padding-top: 24px;">
+                                            <%=player.isCaptain===true ? 'Captain' : 'No' %>
+
+                                        </td>
+                                        <td style="padding-top: 24px;">
+
+                                            <div class="dropdown">
+                                                <div class="dropdown-trigger">
+                                                    <button class="button" aria-haspopup="true"
+                                                        aria-controls="dropdown-menu3">
+                                                        <span class="icon ">
+                                                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                                                    <div class="dropdown-content" style="width: 120px">
+                                                        <a style="background-color: antiquewhite;"
+                                                            class="dropdown-item"
+                                                            href="/players/edit/<%=player.id %>"><i
+                                                                class="fa-solid fa-pencil"
+                                                                style="margin-left: 6px; margin-right: 10px;"></i>Edit</a>
+                                                        <a style="background-color: rgb(238, 116, 116);"
+                                                            class="dropdown-item"
+                                                            href="/players/delete/<%=player.id %>"
+                                                            onclick="return confirm('Are you sure ???')"><i
+                                                                class="fa-solid fa-trash-can"
+                                                                style="margin-left: 6px; margin-right: 10px;"></i>Delete</button></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+                            </tbody>
+                        </table>
+                        </div>
+
+                    </div>
+    </body>
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable();
+        });
+
+    </script>
+
+</html>

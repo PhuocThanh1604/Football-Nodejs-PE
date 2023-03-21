@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include ('./patials/head') %>
+  <body style="background-image: url('https://t3.ftcdn.net/jpg/04/84/56/02/360_F_484560228_OFLEvMOwpDAJfvAHveEBdVnzu4w6gfCe.jpg');background-size: cover;">
+    <div style="margin-top:90px ;">
+      <% if(error_msg !='' ){ %>
+        <div class="notification is-danger is-light" 
+        style="margin-top: 55px;font-size: 36px;font-weight: 900;margin-bottom: 20px;display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 18px;"
+            style="margin-top: 100px;">
+            <%= error_msg %>
+        </div>
+          <% } %>
+          <% if(success_msg !='' ){ %>
+            <div class="notification is-success is-light" 
+            style="margin-top: 55px;font-size: 36px;font-weight: 900;margin-bottom: 20px;display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 18px;"
+                style="margin-top: 100px;">
+                <%= success_msg %>
+            </div>
+              <% } %>
+    </div>
+    <div class="columns is-multiline" style="margin-top: 120px; margin-left: 20px; margin-right: 20px;">
+      <% players.forEach(function(player) { %>
+        <div class="column is-one-quarter">
+          <div class="card">
+            <div class="card-image">
+              <figure class="image is-3by5">
+                <img src="<%= player.image %>" alt="Placeholder image">
+              </figure>
+            </div>
+            
+            <div class="card-content">
+
+              <div class="media">
+                <div class="media-left">
+                  <figure style="height: 46px; width: 70px;">
+                    <img src= "https://cloudinary.fifa.com/api/v3/picture/flags-sq-2/<%=player.nation.name.slice(0, 3).toUpperCase()%>?tx=c_fill,g_auto,q_auto,w_70,h_46" alt="Placeholder image">
+                  </figure>
+                </div>
+                <div class="media-content">
+                  <p class="title is-4"><%= player.name %></p>
+                  <p class="subtitle is-6"><%= player.nation.name %></p>
+                </div>
+              </div>
+              <a href="/players/<%=player.id%>" class="btn btn-info" style="width: 100%;">Detail</a>
+            </div>
+          </div>
+        </div>
+        <% }) %>
+    </div>
+  </body>
+  <%- include ('./patials/footer') %>
+</html>

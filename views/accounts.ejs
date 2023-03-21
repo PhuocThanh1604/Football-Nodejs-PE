@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include ('./patials/head') %>
+    <body style=" height: 100vh;">
+        <h1 class="tag is-danger" style="margin-top: 55px;font-size: 36px;font-weight: 900;margin-bottom: 20px;display: flex; justify-content: center; align-items: center">Accounts Page</h1>
+                    <div class="container is-fluid"
+                        style="display: flex; justify-content: center;">
+                        <div>
+                            <table id="mytable" class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth"
+                                style="width: 1000px;">
+                                <thead style="height: 40px; background-color: rgba(0, 255, 255, 0.7); ">
+                                    <tr>
+                                      
+                                        <th style="text-align: center;">User Name</th>
+                                        <th style="text-align: center;">Name</th>
+                                        <th style="text-align: center;">Year of birth</th>
+                                        <th style="text-align: center;">Admin</th>                                       
+                                    </tr>
+                                </thead>
+                                <tbody style="text-align: center;">
+                                    <% users.forEach(function(user) { %>
+                                        <tr>
+                                            <td style="padding:5px;">
+                                                <%= user.username %>
+                                            </td>
+                                            <td style="padding:5px;">
+                                                <%= user.name %>
+                                            </td>
+                                            <td style="padding:5px;">
+                                                <%= user.YOB %>
+                                            </td>                                       
+                                            <td style="padding:5px;">
+                                                <%=user.isAdmin===true ? 'True' : 'No' %>
+                                            </td>
+                                        </tr>
+                                        <% }) %>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+    </body>
+    <script>
+
+        $(document).ready(function () {
+            $('#mytable').DataTable();
+        });
+    </script>
+
+</html>

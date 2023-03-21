@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include ('./patials/head') %>
+    <body style="background-image: url('https://t3.ftcdn.net/jpg/04/84/56/02/360_F_484560228_OFLEvMOwpDAJfvAHveEBdVnzu4w6gfCe.jpg');background-size: cover;">
+        <div class="columns is-multiline is-mobile" style="margin-top: 120px; margin-left: 20px; margin-right: 20px;">         
+            <div class="column is-two-fifths" >
+            <figure class="image is-2by3">
+                <img src="<%= player.image %>">
+              </figure>
+            </div>
+            <div class="column ">
+                <div class="box" style="width: 10vw; text-align: center; font-weight: 500; background-color: blueviolet; color: #fff;">
+                    Information
+                  </div>
+                <div class="card">
+                    <div class="card-content" style="line-height: 40px;">                
+                      <div class="content">
+                       <strong>Name</strong> : <%= player.name %>                                                                
+                      </div>
+                      <div class="content">
+                        <strong>Career</strong>: <%= player.career %>                                                                
+                      </div>
+                      <div class="content">
+                        <strong>Position</strong> : <%= player.position %>                                                                
+                      </div>
+                      <div class="content">
+                        <strong>Goals</strong>: <%= player.goals %>                                                                
+                      </div>
+                      <div class="content">
+                        <strong>Nation</strong>: <%= player.nation.name %>                                                                
+                      </div>
+                      <div class="content">
+                       <strong>Captain</strong> : <%=player.isCaptain===true ? 'Yes' : 'No' %>                                                                
+                      </div>
+                    </div>
+                  </div>
+            </div>
+  
+          </div>                                
+                             
+    </body>
+</html>
