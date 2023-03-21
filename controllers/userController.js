@@ -10,8 +10,8 @@ const transporter = nodemailer.createTransport({
     // thiết lập email chủ để send otp đến các email khác
     // để sử dụng được chức năng này, vào phần quản lý bảo mật của email chủ đăng ký ở đây
     // Kéo xuống đến mục "Less secure app access" và bật tính năng này lên
-    user: "your_email",
-    pass: "your_password",
+    user: "",
+    pass: "",
   },
 });
 class userController {
@@ -114,7 +114,7 @@ class userController {
                 // Send OTP to user's email address
                 const mailOptions = {
                   to: email,
-                  from: "thienlmse151226@fpt.edu.vn",
+                  from: "vophuocthanha19052017@gmail.com",
                   subject: "Password reset request",
                   html: `
                     <p>You are receiving this email because you (or someone else) have requested the reset of the password for your account.</p>
