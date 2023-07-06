@@ -318,7 +318,7 @@ class PlayerController {
   create(req, res, next) {
     // Xử lý tải lên file hình ảnh từ request
     const file = req.file;
-  
+  console.log(file)
     if (file) {
       cloudinary.uploader.upload(file.buffer, (error, result) => {
         if (error) {
@@ -361,7 +361,7 @@ class PlayerController {
                     }
                   })
                   .catch((err) => {
-                    req.flash("error_msg", "Server Error");
+                    req.flash("error_msg!!!", "Server Error");
                     return res.redirect("/players");
                   });
               }
