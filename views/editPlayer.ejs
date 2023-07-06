@@ -36,7 +36,7 @@
                               </figure></div> -->
                             <div class="file has-name is-boxed">
                                 <label class="file-label">
-                                    <input class="file-input" type="file" name="file">
+                                    <input class="file-input" type="file" name="file" id="image-input">
                                     <span class="file-cta" >
                                         <span class="file-icon">
                                             <i class="fas fa-upload"></i>
@@ -163,7 +163,23 @@
             </div>
         </form>
     </div>
-   
+    <script>
+        document.getElementById('image-input').addEventListener('change', function(e) {
+            var file = e.target.files[0];
+            var reader = new FileReader();
+            
+            reader.onloadend = function() {
+                var imageData = reader.result;
+                // Gửi imageData đi hoặc lưu vào server
+                console.log(imageData); // Hiển thị imageData trong console
+            };
+            
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+    
 </body>
 <%- include ('./patials/footer') %>
 </html>
