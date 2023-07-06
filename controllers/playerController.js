@@ -318,6 +318,7 @@ class PlayerController {
   create(req, res, next) {
     // Xử lý tải lên file hình ảnh từ request
     const file = req.file;
+  console.log(file)
     if (file) {
       cloudinary.uploader.upload(file.buffer, (error, result) => {
         if (error) {
@@ -339,7 +340,7 @@ class PlayerController {
               } else {
                 const data = {
                   name: req.body.name,
-                  image: imageUrl.toString(), // Chuyển đổi imageUrl thành chuỗi
+                  image: imageUrl.toString(),
                   career: req.body.career,
                   position: req.body.position,
                   goals: req.body.goals,
@@ -369,10 +370,45 @@ class PlayerController {
         }
       });
     } else {
-      // ...
+      Nations.find({})
+        .then((nations) => {
+          if (nations.length === 0) {
+            req.flash(
+              "error_msg",
+              "Please input data of nations in Database first!!!"
+            );
+            return res.redirect("/players");
+          } else {
+            const data = {
+              name: req.body.name,
+              career: req.body.career,
+              position: req.body.position,
+              goals: req.body.goals,
+              nation: req.body.nation,
+              isCaptain: req.body.isCaptain === undefined ? false : true,
+            };
+            const player = new Players(data);
+            Players.find({ name: player.name })
+              .then((playerCheck) => {
+                if (playerCheck.length > 0) {
+                  req.flash("error_msg", "Duplicate player name!");
+                  res.redirect("/players");
+                } else {
+                  player
+                    .save()
+                    .then(() => res.redirect("/players"))
+                    .catch(next);
+                }
+              })
+              .catch((err) => {
+                req.flash("error_msg", "Server Error");
+                return res.redirect("/players");
+              });
+          }
+        })
+        .catch(next);
     }
   }
-  
   
   playerDetail(req, res, next) {
     const playerId = req.params.playerId;
