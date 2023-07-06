@@ -543,7 +543,5 @@ class PlayerController {
       .catch(next);
   }
 }
-module.exports = {
-  create,
-};
+
 module.exports = new PlayerController();
