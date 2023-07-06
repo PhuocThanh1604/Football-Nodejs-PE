@@ -278,7 +278,7 @@ class PlayerController {
      // Xử lý tải lên file hình ảnh từ request
   const file = req.file;
 
-  cloudinary.uploader.upload(file.path, (error, result) => {
+  cloudinary.uploader.upload(file.buffer, (error, result) => {
     if (error) {
       console.error(error);
       req.flash("error_msg", "Upload failed");
