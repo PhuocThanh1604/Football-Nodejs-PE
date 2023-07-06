@@ -27,7 +27,7 @@ const uploadImage = async (req, res, next) => {
   if (file) {
     try {
       const result = await cloudinary.uploader.upload(file.path);
-      req.imageUrl = result.secure_url;
+      req.body.image = result.secure_url; // Lấy URL của ảnh và gán vào dữ liệu
     } catch (error) {
       console.error(error);
       req.flash("error_msg", "Upload failed");

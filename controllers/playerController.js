@@ -1,44 +1,44 @@
-const Players = require("../model/player");
-const Nations = require("../model/nation");
-const Users = require("../model/user");
-const jwt = require("jsonwebtoken");
+const Players = require('../model/player');
+const Nations = require('../model/nation');
+const Users = require('../model/user');
+const jwt = require('jsonwebtoken');
 let clubData = [
-  { id: "1", name: "Arsenal" },
-  { id: "2", name: "Manchester United" },
-  { id: "3", name: "Chelsea" },
-  { id: "4", name: "Manchester City" },
-  { id: "5", name: "PSG" },
-  { id: "6", name: "Inter Milan" },
-  { id: "7", name: "Real Madrid" },
-  { id: "8", name: "Barcelona" },
+  { id: '1', name: 'Arsenal' },
+  { id: '2', name: 'Manchester United' },
+  { id: '3', name: 'Chelsea' },
+  { id: '4', name: 'Manchester City' },
+  { id: '5', name: 'PSG' },
+  { id: '6', name: 'Inter Milan' },
+  { id: '7', name: 'Real Madrid' },
+  { id: '8', name: 'Barcelona' },
 ];
 let postitionData = [
-  { id: "1", name: "GK" },
-  { id: "2", name: "CB" },
-  { id: "3", name: "LB" },
-  { id: "4", name: "RB" },
-  { id: "5", name: "SW" },
-  { id: "6", name: "CM" },
-  { id: "7", name: "LM" },
-  { id: "8", name: "RM" },
-  { id: "9", name: "ST" },
-  { id: "10", name: "LW" },
-  { id: "11", name: "RW" },
+  { id: '1', name: 'GK' },
+  { id: '2', name: 'CB' },
+  { id: '3', name: 'LB' },
+  { id: '4', name: 'RB' },
+  { id: '5', name: 'SW' },
+  { id: '6', name: 'CM' },
+  { id: '7', name: 'LM' },
+  { id: '8', name: 'RM' },
+  { id: '9', name: 'ST' },
+  { id: '10', name: 'LW' },
+  { id: '11', name: 'RW' },
 ];
 class PlayerController {
   home(req, res, next) {
     if (req.cookies.jwt) {
-      jwt.verify(req.cookies.jwt, "my_secret_key", (err, decoded) => {
+      jwt.verify(req.cookies.jwt, 'my_secret_key', (err, decoded) => {
         if (err) {
           req.name = undefined;
           req.role = undefined;
           Nations.find({})
             .then((nations) => {
               Players.find({ isCaptain: true })
-                .populate("nation", ["name", "description"])
+                .populate('nation', ['name', 'description'])
                 .then((players) => {
-                  res.render("index", {
-                    title: "The list of Players",
+                  res.render('index', {
+                    title: 'The list of Players',
                     players: players,
                     positionList: postitionData,
                     clubList: clubData,
@@ -62,10 +62,10 @@ class PlayerController {
           Nations.find({})
             .then((nations) => {
               Players.find({ isCaptain: true })
-                .populate("nation", ["name", "description"])
+                .populate('nation', ['name', 'description'])
                 .then((players) => {
-                  res.render("index", {
-                    title: "The list of Players",
+                  res.render('index', {
+                    title: 'The list of Players',
                     players: players,
                     positionList: postitionData,
                     clubList: clubData,
@@ -88,10 +88,10 @@ class PlayerController {
       Nations.find({})
         .then((nations) => {
           Players.find({ isCaptain: true })
-            .populate("nation", ["name", "description"])
+            .populate('nation', ['name', 'description'])
             .then((players) => {
-              res.render("index", {
-                title: "The list of Players",
+              res.render('index', {
+                title: 'The list of Players',
                 players: players,
                 positionList: postitionData,
                 clubList: clubData,
@@ -117,8 +117,8 @@ class PlayerController {
       Users.countDocuments({}),
     ])
       .then(([totalPlayers, totalNations, totalUsers]) => {
-        res.render("dashboard", {
-          title: "Dashboard",
+        res.render('dashboard', {
+          title: 'Dashboard',
           totalNations: totalNations,
           totalPlayers: totalPlayers,
           totalUsers: totalUsers,
@@ -140,15 +140,15 @@ class PlayerController {
     const filter_position = req.query.position;
     console.log(filter_position, filter_nation);
     if (req.query.name) {
-      regex = new RegExp(req.query.name, "i");
+      regex = new RegExp(req.query.name, 'i');
     }
     const nations = await Nations.find();
     if (!req.query.name) {
       if (filter_nation || filter_position) {
-        console.log("zo none key");
+        console.log('zo none key');
         var query;
         if (filter_nation != undefined && filter_position != undefined) {
-          query = { position: filter_position,  nation: filter_nation };
+          query = { position: filter_position, nation: filter_nation };
         }
         if (filter_nation == undefined && filter_position != undefined) {
           query = { position: filter_position };
@@ -164,12 +164,12 @@ class PlayerController {
             return Players.find(query)
               .skip((page - 1) * ITEMS_PER_PAGE) // Bỏ qua các players trên trang hiện tại
               .limit(ITEMS_PER_PAGE) // Giới hạn số lượng players trên mỗi trang
-              .populate("nation", ["name", "description"])
+              .populate('nation', ['name', 'description'])
               .exec();
           })
           .then((players) => {
-            res.render("playerSite", {
-              title: "The list of Players",
+            res.render('playerSite', {
+              title: 'The list of Players',
               players: players,
               positionList: postitionData,
               clubList: clubData,
@@ -196,12 +196,12 @@ class PlayerController {
             return Players.find()
               .skip((page - 1) * ITEMS_PER_PAGE) // Bỏ qua các players trên trang hiện tại
               .limit(ITEMS_PER_PAGE) // Giới hạn số lượng players trên mỗi trang
-              .populate("nation", ["name", "description"])
+              .populate('nation', ['name', 'description'])
               .exec();
           })
           .then((players) => {
-            res.render("playerSite", {
-              title: "The list of Players",
+            res.render('playerSite', {
+              title: 'The list of Players',
               players: players,
               positionList: postitionData,
               clubList: clubData,
@@ -248,12 +248,12 @@ class PlayerController {
           return Players.find(query)
             .skip((page - 1) * ITEMS_PER_PAGE) // Bỏ qua các players trên trang hiện tại
             .limit(ITEMS_PER_PAGE) // Giới hạn số lượng players trên mỗi trang
-            .populate("nation", ["name", "description"])
+            .populate('nation', ['name', 'description'])
             .exec();
         })
         .then((players) => {
-          res.render("playerSite", {
-            title: "The list of Players",
+          res.render('playerSite', {
+            title: 'The list of Players',
             players: players,
             positionList: postitionData,
             clubList: clubData,
@@ -316,89 +316,56 @@ class PlayerController {
   //     });
   // }
   create = async (req, res, next) => {
-    const file = req.file;
-    console.log(file);
+    const data = {
+      name: req.body.name,
+      image: req.body.image, // Sử dụng URL của ảnh đã lấy từ Cloudinary
+      career: req.body.career,
+      position: req.body.position,
+      goals: req.body.goals,
+      nation: req.body.nation,
+      isCaptain: req.body.isCaptain === undefined ? false : true,
+    };
+
     try {
-      if (file) {
-        const result = await cloudinary.uploader.upload(file.path);
-        const imageUrl = result.secure_url;
-        const fileContent = fs.readFileSync(file.path, 'utf-8');
-        console.log(imageUrl);
-        console.log(fileContent); // Chuỗi nội dung của file
-        
-        const nations = await Nations.find({});
-        if (nations.length === 0) {
-          req.flash("error_msg", "Please input data of nations in Database first!!!");
-          return res.redirect("/players");
-        }
-  
-        const data = {
-          name: req.body.name,
-          image: fileContent, // Sử dụng nội dung file chuyển thành chuỗi
-          career: req.body.career,
-          position: req.body.position,
-          goals: req.body.goals,
-          nation: req.body.nation,
-          isCaptain: req.body.isCaptain === undefined ? false : true,
-        };
-        
-        const player = new Players(data);
-        const playerCheck = await Players.find({ name: player.name });
-        if (playerCheck.length > 0) {
-          req.flash("error_msg", "Duplicate player name!");
-          return res.redirect("/players");
-        }
-  
-        await player.save();
-        return res.redirect("/players");
-      } else {
-        const nations = await Nations.find({});
-        if (nations.length === 0) {
-          req.flash("error_msg", "Please input data of nations in Database first!!!");
-          return res.redirect("/players");
-        }
-  
-        const data = {
-          name: req.body.name,
-          career: req.body.career,
-          position: req.body.position,
-          goals: req.body.goals,
-          nation: req.body.nation,
-          isCaptain: req.body.isCaptain === undefined ? false : true,
-        };
-        
-        const player = new Players(data);
-        const playerCheck = await Players.find({ name: player.name });
-        if (playerCheck.length > 0) {
-          req.flash("error_msg", "Duplicate player name!");
-          return res.redirect("/players");
-        }
-  
-        await player.save();
-        return res.redirect("/players");
+      const nations = await Nations.find({});
+      if (nations.length === 0) {
+        req.flash(
+          'error_msg',
+          'Please input data of nations in Database first!!!'
+        );
+        return res.redirect('/players');
       }
+
+      const player = new Players(data);
+      const playerCheck = await Players.find({ name: player.name });
+      if (playerCheck.length > 0) {
+        req.flash('error_msg', 'DuplicateTên cầu thủ!');
+        return res.redirect('/players');
+      }
+
+      await player.save();
+      return res.redirect('/players');
     } catch (error) {
       console.error(error);
-      req.flash("error_msg", "Server Error");
-      return res.redirect("/players");
+      req.flash('error_msg', 'Server Error');
+      return res.redirect('/players');
     }
   };
-  
-  
+
   playerDetail(req, res, next) {
     const playerId = req.params.playerId;
     if (req.cookies.jwt) {
-      jwt.verify(req.cookies.jwt, "my_secret_key", (err, decoded) => {
+      jwt.verify(req.cookies.jwt, 'my_secret_key', (err, decoded) => {
         if (err) {
           req.name = undefined;
           req.role = undefined;
           Nations.find({})
             .then((nations) => {
               Players.findById(playerId)
-                .populate("nation", "name")
+                .populate('nation', 'name')
                 .then((player) => {
-                  res.render("playerDetail", {
-                    title: "The detail of Player",
+                  res.render('playerDetail', {
+                    title: 'The detail of Player',
                     player: player,
                     positionList: postitionData,
                     clubList: clubData,
@@ -416,10 +383,10 @@ class PlayerController {
           Nations.find({})
             .then((nations) => {
               Players.findById(playerId)
-                .populate("nation", "name")
+                .populate('nation', 'name')
                 .then((player) => {
-                  res.render("playerDetail", {
-                    title: "The detail of Player",
+                  res.render('playerDetail', {
+                    title: 'The detail of Player',
                     player: player,
                     positionList: postitionData,
                     clubList: clubData,
@@ -436,10 +403,10 @@ class PlayerController {
       Nations.find({})
         .then((nations) => {
           Players.findById(playerId)
-            .populate("nation", "name")
+            .populate('nation', 'name')
             .then((player) => {
-              res.render("playerDetail", {
-                title: "The detail of Player",
+              res.render('playerDetail', {
+                title: 'The detail of Player',
                 player: player,
                 positionList: postitionData,
                 clubList: clubData,
@@ -457,10 +424,10 @@ class PlayerController {
     Nations.find({})
       .then((nations) => {
         Players.findById(playerId)
-          .populate("nation", "name")
+          .populate('nation', 'name')
           .then((player) => {
-            res.render("editPlayer", {
-              title: "The detail of Player",
+            res.render('editPlayer', {
+              title: 'The detail of Player',
               player: player,
               positionList: postitionData,
               clubList: clubData,
@@ -501,11 +468,11 @@ class PlayerController {
     //   } else {
     Players.updateOne({ _id: req.params.playerId }, data)
       .then(() => {
-        res.redirect("/players");
+        res.redirect('/players');
       })
       .catch((err) => {
-        console.log("error update: ", err);
-        req.flash("error_msg", "Duplicate player name!");
+        console.log('error update: ', err);
+        req.flash('error_msg', 'Duplicate player name!');
         res.redirect(`/players/edit/${req.params.playerId}`);
       });
     //   }
@@ -513,7 +480,7 @@ class PlayerController {
   }
   delete(req, res, next) {
     Players.findByIdAndDelete({ _id: req.params.playerId })
-      .then(() => res.redirect("/players"))
+      .then(() => res.redirect('/players'))
       .catch(next);
   }
 }
