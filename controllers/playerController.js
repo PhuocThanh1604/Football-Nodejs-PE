@@ -315,7 +315,7 @@ class PlayerController {
   //       return res.redirect("/players");
   //     });
   // }
-  const create = (req, res, next) => {
+   create = (req, res, next) => {
     const file = req.file;
     console.log(file);
     if (file) {
@@ -408,9 +408,7 @@ class PlayerController {
     }
   };
   
-  module.exports = {
-    create,
-  };
+ 
   
   
   playerDetail(req, res, next) {
@@ -545,4 +543,7 @@ class PlayerController {
       .catch(next);
   }
 }
+module.exports = {
+  create,
+};
 module.exports = new PlayerController();
