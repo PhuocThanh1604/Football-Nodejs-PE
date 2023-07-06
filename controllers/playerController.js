@@ -445,6 +445,7 @@ class PlayerController {
       data = {
         name: req.body.name,
         career: req.body.career,
+        image: req.body.image, 
         position: req.body.position,
         goals: req.body.goals,
         nation: req.body.nation,
