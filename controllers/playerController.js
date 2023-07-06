@@ -25,6 +25,7 @@ let postitionData = [
   { id: "10", name: "LW" },
   { id: "11", name: "RW" },
 ];
+const upload = multer({ storage: storage });
 class PlayerController {
   home(req, res, next) {
     if (req.cookies.jwt) {
