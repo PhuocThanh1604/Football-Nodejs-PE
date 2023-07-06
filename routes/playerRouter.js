@@ -4,6 +4,15 @@ const playerController = require("../controllers/playerController");
 const multer = require("multer");
 const {ensureAuthenticated,jwtAuth} = require('../config/auth')
 const {requireRole} = require('../config/verifyRole')
+const cloudinary = require('cloudinary').v2;
+
+// Cấu hình kết nối với Cloudinary
+cloudinary.config({ 
+  cloud_name: 'drvrfmcji', 
+  api_key: '955699232226773', 
+  api_secret: 'Fl8t8OdH_3Lo5Ke8hj4kz1tg34g' 
+});
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "public/images/Players/");

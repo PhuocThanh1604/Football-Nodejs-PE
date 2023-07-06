@@ -275,6 +275,17 @@ class PlayerController {
   };
 
   create(req, res, next) {
+     // Xử lý tải lên file hình ảnh từ request
+  const file = req.file;
+
+  cloudinary.uploader.upload(file.path, (error, result) => {
+    if (error) {
+      console.error(error);
+      req.flash("error_msg", "Upload failed");
+      return res.redirect("/players");
+    } else {
+      // Lấy URL hoặc chuỗi mã hóa của file đã tải lên từ Cloudinary
+      // const imageUrl = result.url || result.secure_url;
     Nations.find({})
       .then((nations) => {
         if (nations.length === 0) {
@@ -286,10 +297,7 @@ class PlayerController {
         } else {
           var data = {
             name: req.body.name,
-            image:
-              req.file === undefined
-                ? ""
-                : `/images/Players/${req.file.originalname}`,
+            image: req.file === undefined ? "" : `/images/Players/${req.file.originalname}`,
             career: req.body.career,
             position: req.body.position,
             goals: req.body.goals,
@@ -314,6 +322,8 @@ class PlayerController {
         req.flash("error_msg", "Server Error");
         return res.redirect("/players");
       });
+    }
+  })
   }
   playerDetail(req, res, next) {
     const playerId = req.params.playerId;

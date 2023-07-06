@@ -15,6 +15,16 @@ require('./config/passport')(passport);
 const url = "mongodb+srv://vophuocthanha19052017:pthanh@cluster0.zdxr5zm.mongodb.net/databasewordcup?retryWrites=true&w=majority";
 const connect = mongoose.connect(url);
 // mongoose.set('strictQuery',true);
+
+const cloudinary = require('cloudinary').v2;
+
+// Cấu hình kết nối với Cloudinary
+cloudinary.config({ 
+  cloud_name: 'drvrfmcji', 
+  api_key: '955699232226773', 
+  api_secret: 'Fl8t8OdH_3Lo5Ke8hj4kz1tg34g' 
+});
+
 connect
   .then((db) => {
     console.log("Connected correctly to server");
