@@ -25,7 +25,6 @@ let postitionData = [
   { id: "10", name: "LW" },
   { id: "11", name: "RW" },
 ];
-const upload = multer({ storage: storage });
 class PlayerController {
   home(req, res, next) {
     if (req.cookies.jwt) {
@@ -322,13 +321,13 @@ class PlayerController {
   console.log(file)
     if (file) {
       upload(req, res, (err) => {
-        if (error) {
+        if (err) {
           console.error(err);
           req.flash("error_msg", "Upload failed");
           return res.redirect("/players");
         } else {
           // Lấy URL hoặc chuỗi mã hóa của file đã tải lên từ Cloudinary
-          const imageUrl = req.file.path;
+         const imageUrl = req.file.path;
   
           Nations.find({})
             .then((nations) => {
