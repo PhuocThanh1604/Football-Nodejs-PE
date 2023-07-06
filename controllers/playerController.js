@@ -320,14 +320,14 @@ class PlayerController {
     const file = req.file;
   console.log(file)
     if (file) {
-      cloudinary.uploader.upload(file.buffer, (error, result) => {
+      upload(req, res, (err) => {
         if (error) {
-          console.error(error);
+          console.error(err);
           req.flash("error_msg", "Upload failed");
           return res.redirect("/players");
         } else {
           // Lấy URL hoặc chuỗi mã hóa của file đã tải lên từ Cloudinary
-          const imageUrl = result.url || result.secure_url;
+          const imageUrl = req.file.path;
   
           Nations.find({})
             .then((nations) => {

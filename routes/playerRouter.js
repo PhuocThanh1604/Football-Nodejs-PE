@@ -14,9 +14,6 @@ cloudinary.config({
 });
 
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "public/images/Players/");
-  },
   filename: function (req, file, cb) {
     cb(null, file.originalname);
   },
@@ -28,7 +25,7 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage: multer.memoryStorage() });
+const upload = multer({ storage: storage });
 const playerRouter = express.Router();
 playerRouter.use(bodyParser.json());
 playerRouter
