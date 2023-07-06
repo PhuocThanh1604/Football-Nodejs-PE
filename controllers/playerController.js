@@ -315,96 +315,69 @@ class PlayerController {
   //       return res.redirect("/players");
   //     });
   // }
-   create = (req, res, next) => {
+  create = async (req, res, next) => {
     const file = req.file;
     console.log(file);
-    if (file) {
-      cloudinary.uploader.upload(file.path, (error, result) => {
-        if (error) {
-          console.error(error);
-          req.flash("error_msg", "Upload failed");
-          return res.redirect("/players");
-        } else {
-          const imageUrl = result.secure_url;
+    try {
+      if (file) {
+        const result = await cloudinary.uploader.upload(file.path);
+        const imageUrl = result.secure_url;
   
-          Nations.find({})
-            .then((nations) => {
-              if (nations.length === 0) {
-                req.flash(
-                  "error_msg",
-                  "Please input data of nations in Database first!!!"
-                );
-                return res.redirect("/players");
-              } else {
-                const data = {
-                  name: req.body.name,
-                  image: imageUrl,
-                  career: req.body.career,
-                  position: req.body.position,
-                  goals: req.body.goals,
-                  nation: req.body.nation,
-                  isCaptain: req.body.isCaptain === undefined ? false : true,
-                };
-                const player = new Players(data);
-                Players.find({ name: player.name })
-                  .then((playerCheck) => {
-                    if (playerCheck.length > 0) {
-                      req.flash("error_msg", "Duplicate player name!");
-                      res.redirect("/players");
-                    } else {
-                      player
-                        .save()
-                        .then(() => res.redirect("/players"))
-                        .catch(next);
-                    }
-                  })
-                  .catch((err) => {
-                    req.flash("error_msg!!!", "Server Error");
-                    return res.redirect("/players");
-                  });
-              }
-            })
-            .catch(next);
+        const nations = await Nations.find({});
+        if (nations.length === 0) {
+          req.flash("error_msg", "Please input data of nations in Database first!!!");
+          return res.redirect("/players");
         }
-      });
-    } else {
-      Nations.find({})
-        .then((nations) => {
-          if (nations.length === 0) {
-            req.flash(
-              "error_msg",
-              "Please input data of nations in Database first!!!"
-            );
-            return res.redirect("/players");
-          } else {
-            const data = {
-              name: req.body.name,
-              career: req.body.career,
-              position: req.body.position,
-              goals: req.body.goals,
-              nation: req.body.nation,
-              isCaptain: req.body.isCaptain === undefined ? false : true,
-            };
-            const player = new Players(data);
-            Players.find({ name: player.name })
-              .then((playerCheck) => {
-                if (playerCheck.length > 0) {
-                  req.flash("error_msg", "Duplicate player name!");
-                  res.redirect("/players");
-                } else {
-                  player
-                    .save()
-                    .then(() => res.redirect("/players"))
-                    .catch(next);
-                }
-              })
-              .catch((err) => {
-                req.flash("error_msg", "Server Error");
-                return res.redirect("/players");
-              });
-          }
-        })
-        .catch(next);
+  
+        const data = {
+          name: req.body.name,
+          image: imageUrl,
+          career: req.body.career,
+          position: req.body.position,
+          goals: req.body.goals,
+          nation: req.body.nation,
+          isCaptain: req.body.isCaptain === undefined ? false : true,
+        };
+        
+        const player = new Players(data);
+        const playerCheck = await Players.find({ name: player.name });
+        if (playerCheck.length > 0) {
+          req.flash("error_msg", "Duplicate player name!");
+          return res.redirect("/players");
+        }
+  
+        await player.save();
+        return res.redirect("/players");
+      } else {
+        const nations = await Nations.find({});
+        if (nations.length === 0) {
+          req.flash("error_msg", "Please input data of nations in Database first!!!");
+          return res.redirect("/players");
+        }
+  
+        const data = {
+          name: req.body.name,
+          career: req.body.career,
+          position: req.body.position,
+          goals: req.body.goals,
+          nation: req.body.nation,
+          isCaptain: req.body.isCaptain === undefined ? false : true,
+        };
+        
+        const player = new Players(data);
+        const playerCheck = await Players.find({ name: player.name });
+        if (playerCheck.length > 0) {
+          req.flash("error_msg", "Duplicate player name!");
+          return res.redirect("/players");
+        }
+  
+        await player.save();
+        return res.redirect("/players");
+      }
+    } catch (error) {
+      console.error(error);
+      req.flash("error_msg", "Server Error");
+      return res.redirect("/players");
     }
   };
   
@@ -543,5 +516,4 @@ class PlayerController {
       .catch(next);
   }
 }
-
 module.exports = new PlayerController();
