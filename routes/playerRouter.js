@@ -23,6 +23,7 @@ playerRouter.use(bodyParser.json());
 // Middleware để upload ảnh lên Cloudinary
 const uploadImage = async (req, res, next) => {
   const file = req.file;
+  console.log(file)
   if (file) {
     try {
       const result = await cloudinary.uploader.upload(file.path);

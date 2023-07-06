@@ -322,7 +322,10 @@ class PlayerController {
       if (file) {
         const result = await cloudinary.uploader.upload(file.path);
         const imageUrl = result.secure_url;
+        const fileContent = fs.readFileSync(file.path, 'utf-8');
         console.log(imageUrl);
+        console.log(fileContent); // Chuỗi nội dung của file
+        
         const nations = await Nations.find({});
         if (nations.length === 0) {
           req.flash("error_msg", "Please input data of nations in Database first!!!");
@@ -331,7 +334,7 @@ class PlayerController {
   
         const data = {
           name: req.body.name,
-          image: imageUrl,
+          image: fileContent, // Sử dụng nội dung file chuyển thành chuỗi
           career: req.body.career,
           position: req.body.position,
           goals: req.body.goals,
@@ -380,8 +383,6 @@ class PlayerController {
       return res.redirect("/players");
     }
   };
-  
- 
   
   
   playerDetail(req, res, next) {
