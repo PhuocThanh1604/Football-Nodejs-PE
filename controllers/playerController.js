@@ -274,57 +274,142 @@ class PlayerController {
     }
   };
 
+  // create(req, res, next) {
+  //   Nations.find({})
+  //     .then((nations) => {
+  //       if (nations.length === 0) {
+  //         req.flash(
+  //           "error_msg",
+  //           "Please input data of nations in Database first!!!"
+  //         );
+  //         return res.redirect("/players");
+  //       } else {
+  //         var data = {
+  //           name: req.body.name,
+  //           image:
+  //             req.file === undefined
+  //               ? ""
+  //               : `/images/Players/${req.file.originalname}`,
+  //           career: req.body.career,
+  //           position: req.body.position,
+  //           goals: req.body.goals,
+  //           nation: req.body.nation,
+  //           isCaptain: req.body.isCaptain === undefined ? false : true,
+  //         };
+  //         const player = new Players(data);
+  //         Players.find({ name: player.name }).then((playerCheck) => {
+  //           if (playerCheck.length > 0) {
+  //             req.flash("error_msg", "Duplicate player name!");
+  //             res.redirect("/players");
+  //           } else {
+  //             player
+  //               .save()
+  //               .then(() => res.redirect("/players"))
+  //               .catch(next);
+  //           }
+  //         });
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       req.flash("error_msg", "Server Error");
+  //       return res.redirect("/players");
+  //     });
+  // }
   create(req, res, next) {
-     // Xử lý tải lên file hình ảnh từ request
-  const file = req.file;
-
-  cloudinary.uploader.upload(file.buffer, (error, result) => {
-    if (error) {
-      console.error(error);
-      req.flash("error_msg", "Upload failed");
-      return res.redirect("/players");
-    } else {
-      // Lấy URL hoặc chuỗi mã hóa của file đã tải lên từ Cloudinary
-      // const imageUrl = result.url || result.secure_url;
-    Nations.find({})
-      .then((nations) => {
-        if (nations.length === 0) {
-          req.flash(
-            "error_msg",
-            "Please input data of nations in Database first!!!"
-          );
+    // Xử lý tải lên file hình ảnh từ request
+    const file = req.file;
+  
+    if (file) {
+      cloudinary.uploader.upload(file.buffer, (error, result) => {
+        if (error) {
+          console.error(error);
+          req.flash("error_msg", "Upload failed");
           return res.redirect("/players");
         } else {
-          var data = {
-            name: req.body.name,
-            image: req.file === undefined ? "" : `/images/Players/${req.file.originalname}`,
-            career: req.body.career,
-            position: req.body.position,
-            goals: req.body.goals,
-            nation: req.body.nation,
-            isCaptain: req.body.isCaptain === undefined ? false : true,
-          };
-          const player = new Players(data);
-          Players.find({ name: player.name }).then((playerCheck) => {
-            if (playerCheck.length > 0) {
-              req.flash("error_msg", "Duplicate player name!");
-              res.redirect("/players");
-            } else {
-              player
-                .save()
-                .then(() => res.redirect("/players"))
-                .catch(next);
-            }
-          });
+          // Lấy URL hoặc chuỗi mã hóa của file đã tải lên từ Cloudinary
+          const imageUrl = result.url || result.secure_url;
+  
+          Nations.find({})
+            .then((nations) => {
+              if (nations.length === 0) {
+                req.flash(
+                  "error_msg",
+                  "Please input data of nations in Database first!!!"
+                );
+                return res.redirect("/players");
+              } else {
+                const data = {
+                  name: req.body.name,
+                  image: imageUrl,
+                  career: req.body.career,
+                  position: req.body.position,
+                  goals: req.body.goals,
+                  nation: req.body.nation,
+                  isCaptain: req.body.isCaptain === undefined ? false : true,
+                };
+                const player = new Players(data);
+                Players.find({ name: player.name })
+                  .then((playerCheck) => {
+                    if (playerCheck.length > 0) {
+                      req.flash("error_msg", "Duplicate player name!");
+                      res.redirect("/players");
+                    } else {
+                      player
+                        .save()
+                        .then(() => res.redirect("/players"))
+                        .catch(next);
+                    }
+                  })
+                  .catch((err) => {
+                    req.flash("error_msg", "Server Error");
+                    return res.redirect("/players");
+                  });
+              }
+            })
+            .catch(next);
         }
-      })
-      .catch((err) => {
-        req.flash("error_msg", "Server Error");
-        return res.redirect("/players");
       });
+    } else {
+      Nations.find({})
+        .then((nations) => {
+          if (nations.length === 0) {
+            req.flash(
+              "error_msg",
+              "Please input data of nations in Database first!!!"
+            );
+            return res.redirect("/players");
+          } else {
+            const data = {
+              name: req.body.name,
+              career: req.body.career,
+              position: req.body.position,
+              goals: req.body.goals,
+              nation: req.body.nation,
+              isCaptain: req.body.isCaptain === undefined ? false : true,
+            };
+            const player = new Players(data);
+            Players.find({ name: player.name })
+              .then((playerCheck) => {
+                if (playerCheck.length > 0) {
+                  req.flash("error_msg", "Duplicate player name!");
+                  res.redirect("/players");
+                } else {
+                  player
+                    .save()
+                    .then(() => res.redirect("/players"))
+                    .catch(next);
+                }
+              })
+              .catch((err) => {
+                req.flash("error_msg", "Server Error");
+                return res.redirect("/players");
+              });
+          }
+        })
+        .catch(next);
     }
-  })
   }
+  
   playerDetail(req, res, next) {
     const playerId = req.params.playerId;
     if (req.cookies.jwt) {
