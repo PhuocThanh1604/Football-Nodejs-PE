@@ -322,7 +322,7 @@ class PlayerController {
       if (file) {
         const result = await cloudinary.uploader.upload(file.path);
         const imageUrl = result.secure_url;
-  
+        console.log(imageUrl);
         const nations = await Nations.find({});
         if (nations.length === 0) {
           req.flash("error_msg", "Please input data of nations in Database first!!!");
